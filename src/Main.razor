@@ -42,6 +42,11 @@
                        @* aria-label="Filter settings" style="width: 14rem;"/> *@
             </div>
 
+            @foreach (var file in BipBop.Files.ListFiles("BipBop"))
+            {
+                <p>@file</p>
+            }
+            
             @* @if (settings.Count == 0) *@
             @* { *@
             @*     <div class="empty">Reading the settings…</div> *@
@@ -54,8 +59,8 @@
             @*     </div> *@
             @* } *@
             @* else *@
-            {
-                <div class="table-scroll">
+            @* { *@
+            @*     <div class="table-scroll"> *@
                     @* <table class="table table--settings"> *@
                     @*     <thead> *@
                     @*     <tr> *@
@@ -132,7 +137,7 @@
                     @*     } *@
                     @*     </tbody> *@
                     @* </table> *@
-                </div>
+                @* </div> *@
 
                 <div class="command-bar">
                     <span class="muted" style="flex: 1;">
@@ -146,7 +151,7 @@
                     @* <button class="btn btn--small" @onclick="DiscardAll" disabled="@(busy || edits.Count == 0)">Discard changes</button> *@
                     @* <button class="btn btn--small btn--primary" @onclick="SaveAsync" disabled="@(busy || edits.Count == 0)">Save changes</button> *@
                 </div>
-            }
+            @* } *@
         </section>
     </div>
 </div>
