@@ -6,15 +6,25 @@ public class BipBop(IServerPluginFiles files, IPluginPages pages) : IPlugin
 {
     public static IServerPluginFiles? Files { get; private set; }
     
-    public Task Load()
+    public async Task Load()
     {
         Files = files;
+        
+        var config = await ReadConfigAsync();
+        if (config == null)
+            throw new Exception("Couldn't read config.");
         
         pages.AddPage(new PluginPage("bipbop-settings", "BipBop")
         {
             AdministratorOnly = false,
             Description = "Settings for BipBop",
             Sections = [
+                new PluginNoticeSection
+                {
+                    Heading = "Varning!",
+                    Text = "Denna sida är inte färdigimplementerad. Ändringar som görs här påverkar inte den faktiska konfigurationen.",
+                    Kind = PluginNoticeKind.Warning
+                },
                 new PluginSettingsSection
                 {
                     Title = "Settings",
@@ -69,7 +79,15 @@ public class BipBop(IServerPluginFiles files, IPluginPages pages) : IPlugin
                 }
             ]
         });
-        
-        return Task.CompletedTask;
+    }
+
+    private async Task<string?> ReadConfigAsync()
+    {
+        if (!files.IsConnected)
+            return null;
+        if (!files.ListFiles("BipBop").Contains("BipBop/config.yml"))
+            return null;
+
+        return await files.ReadTextAsync("BipBop/config.yml");
     }
 }
