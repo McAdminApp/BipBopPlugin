@@ -109,13 +109,11 @@ public class BipBop(IServerPluginFiles files, IPluginPages pages) : IPlugin
                 {
                     try
                     {
-                        var updatedSettings = await files.ReadYamlAsync(ConfigFile, ct);
-                        foreach (var (key, value) in changes)
+                        await files.EditYamlAsync(ConfigFile, config =>
                         {
-                            updatedSettings.Set(key, value);
-                        }
-
-                        await files.WriteYamlAsync(ConfigFile, updatedSettings, ct);
+                            foreach(var (key, value) in changes)
+                                config.Set(key, value);
+                        }, ct);
                         
                         return PluginResult.Success("Saved " + changes.Count + " changes to " + ConfigFile);
                     }
