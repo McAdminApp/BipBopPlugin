@@ -121,7 +121,7 @@ public class BipBop(IServerPluginFiles files, IPluginPages pages) : IPlugin
                     }
                     catch (Exception ex)
                     {
-                        return PluginResult.Failure("Something went wrong while trying to save values.");
+                        return PluginResult.Failure("Something went wrong while trying to save values:\n" + ex.Message);
                     }
                 }
             }
